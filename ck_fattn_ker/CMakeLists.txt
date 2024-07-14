@@ -33,8 +33,8 @@ ${SRC_DIR_LIST}
 
 target_include_directories(ck_fttn_lib PUBLIC
 src
-pytorch_rocm_header/include
-pytorch_rocm_header/include/torch/csrc/api/include
+../include/pytorch_rocm_header/include
+../include/pytorch_rocm_header/include/torch/csrc/api/include
 ${PYTHON_INCLUDE_DIRS}
 ${ck_include}
 composable_kernel/library/include
