@@ -1,0 +1,4 @@
+[submodule "ck_fattn_ker/composable_kernel"]
+	path = ck_fattn_ker/composable_kernel
+	url = https://github.com/ROCm/composable_kernel
+	branch = howiejayz/supports_all_arch
