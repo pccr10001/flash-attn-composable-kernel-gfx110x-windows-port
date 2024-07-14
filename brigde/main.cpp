@@ -1,3 +1,17 @@
+// BSD 3 Clause
+// Copyright 2023 Advanced Micro Devices, Inc.
+// Redistribution and use in source and binary forms, with or without
+// modification, are permitted provided that the following conditions are met:
+// 1. Redistributions of source code must retain the above copyright notice,
+// this list of conditions and the following disclaimer.
+// 2. Redistributions in binary form must reproduce the above copyright notice,
+// this list of conditions and the following disclaimer in the documentation
+// and/or other materials provided with the distribution.
+// 3. Neither the name of the copyright holder nor the names of its contributors
+// may be used to endorse or promote products derived from this software without
+// specific prior written permission.
+
+
 #include <torch/extension.h>
 #include <cassert>
 #include <cstdio>
@@ -47,8 +61,6 @@ static inline bool get_env_(const char *env_var) {
   }
   return false;
 }
-
-
 
 __declspec(dllimport)  struct BaseParams {
   explicit BaseParams(const Index b, const Index max_seqlen_q,
@@ -233,8 +245,6 @@ void __declspec(dllimport)  flash_run_fwd_batch(FlashFwdBatchedParams bp, void *
 
  __declspec(dllimport)  bool chk_is_wmma_supported() ;
  __declspec(dllimport)  bool chk_is_xdl_supported();
-
-
  
 std::vector<torch::Tensor> mha_fwd(
     const torch::Tensor &q, // batch_size x seqlen_q x num_heads_q x head_size
