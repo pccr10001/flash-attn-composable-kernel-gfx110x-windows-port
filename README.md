@@ -1,7 +1,7 @@
 # flash-attn-composable-kernel-gfx110x-windows-port
 CK-Based flash attention for navi3x porting for win zluda env.
 
-folder `ck_fattn_ker` forked and modified from:
+`ck_fattn_ker` forked and modified from:
 https://github.com/ROCm/flash-attention/tree/howiejay/navi_support/csrc/flash_attn_rocm
 
 # Build
