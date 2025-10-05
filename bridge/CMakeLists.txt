@@ -36,7 +36,7 @@ target_link_libraries(ck_fttn_pyb
   ${PYTHON_LIBRARIES}
   ${TORCH_LIBRARIES}
   ${TORCH_PYTHON_LIBRARY}
-  ck_fttn_lib.lib
+  ck_fttn_lib.so
 )
 
 target_compile_definitions(ck_fttn_pyb PRIVATE TORCH_EXTENSION_NAME=ck_fttn_pyb)

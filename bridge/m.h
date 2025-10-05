@@ -5,10 +5,10 @@
 #include <cstdlib>
 
 #include <torch/torch.h>
-#include <ATen/cuda/PhiloxCudaState.h>
-#include <ATen/cuda/CUDAContext.h>
-#include <ATen/cuda/CUDAGeneratorImpl.h>
-#include <c10/cuda/CUDAGuard.h>
+#include <ATen/hip/PhiloxCudaState.h>
+#include <ATen/hip/HIPContext.h>
+#include <ATen/hip/HIPGeneratorImpl.h>
+#include <c10/hip/HIPGuard.h>
 
 using index_t      = int32_t;
 using long_index_t = int64_t;

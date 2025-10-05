@@ -44,7 +44,7 @@ ${HIP_INCLUDE_DIR}
 target_link_libraries(ck_fttn_lib PUBLIC
 ${PYTHON_LIBRARIES}
 -lc10
--lc10_cuda
+-lc10_hip
 -ltorch_cpu
 -ltorch
 -ltorch_python
@@ -61,6 +61,7 @@ target_compile_options(ck_fttn_lib PUBLIC
 -mllvm=-amdgpu-early-inline-all=true
 -Wno-deprecated-declarations 
 -Wno-ignored-attributes
+-Wno-missing-template-arg-list-after-template-kw
 #--save-temps
 )
 

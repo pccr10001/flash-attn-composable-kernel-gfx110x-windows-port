@@ -18,10 +18,10 @@
 #include <cstdlib>
 
 #include <torch/torch.h>
-#include <ATen/cuda/PhiloxCudaState.h>
-#include <ATen/cuda/CUDAContext.h>
-#include <ATen/cuda/CUDAGeneratorImpl.h>
-#include <c10/cuda/CUDAGuard.h>
+#include <ATen/hip/PhiloxCudaState.h>
+#include <ATen/hip/HIPContext.h>
+#include <ATen/hip/HIPGeneratorImpl.h>
+#include <c10/hip/HIPGuard.h>
 
 #include "m.h"
 
@@ -62,7 +62,7 @@ static inline bool get_env_(const char *env_var) {
   return false;
 }
 
-__declspec(dllimport)  struct BaseParams {
+  struct BaseParams {
   explicit BaseParams(const Index b, const Index max_seqlen_q,
                       const Index max_seqlen_kv, const Index h_q,
                       const Index h_kv, const Index d, const torch::Tensor &q,
@@ -124,7 +124,7 @@ __declspec(dllimport)  struct BaseParams {
 };
 
 
-__declspec(dllimport)  struct BatchedParams : public BaseParams {
+  struct BatchedParams : public BaseParams {
   explicit BatchedParams(
       const Index b, const Index max_seqlen_q, const Index max_seqlen_kv,
       const Index h_q, const Index h_kv, const Index d, const torch::Tensor &q,
@@ -210,7 +210,7 @@ __declspec(dllimport)  struct BatchedParams : public BaseParams {
   // std::vector<Index> lse_strides;
 };
 
-__declspec(dllimport)  // Forward Batched Arguments
+  // Forward Batched Arguments
 struct FlashFwdBatchedParams : public BatchedParams {
   explicit FlashFwdBatchedParams(
       const Index b, const Index max_seqlen_q, const Index max_seqlen_kv,
@@ -237,14 +237,14 @@ struct FlashFwdBatchedParams : public BatchedParams {
 
 
 
-void __declspec(dllimport)  flash_run_fwd_batch(FlashFwdBatchedParams bp, void *s);
-//void __declspec(dllimport)  flash_run_fwd_group(FlashFwdGroupedParams bp, void *s);
-//void __declspec(dllimport)  flash_run_bwd_batch(FlashBwdBatchedParams bp, void *s);
-//void __declspec(dllimport)  flash_run_bwd_group(FlashBwdGroupedParams bp, void *s);
+void   flash_run_fwd_batch(FlashFwdBatchedParams bp, void *s);
+//void   flash_run_fwd_group(FlashFwdGroupedParams bp, void *s);
+//void   flash_run_bwd_batch(FlashBwdBatchedParams bp, void *s);
+//void   flash_run_bwd_group(FlashBwdGroupedParams bp, void *s);
 
 
- __declspec(dllimport)  bool chk_is_wmma_supported() ;
- __declspec(dllimport)  bool chk_is_xdl_supported();
+   bool chk_is_wmma_supported() ;
+   bool chk_is_xdl_supported();
  
 std::vector<torch::Tensor> mha_fwd(
     const torch::Tensor &q, // batch_size x seqlen_q x num_heads_q x head_size
@@ -339,7 +339,7 @@ std::vector<torch::Tensor> mha_fwd(
 
   // Otherwise the kernel will be launched from cuda:0 device
   // Cast to char to avoid compiler warning about narrowing
-  at::cuda::CUDAGuard device_guard{(char)q.get_device()};
+  at::cuda::HIPGuard device_guard{(char)q.get_device()};
 
   auto opts = q.options();
 
@@ -382,7 +382,7 @@ std::vector<torch::Tensor> mha_fwd(
     std::tie(rng_state_ptr[0], rng_state_ptr[1]) = params.seeds;
   }
 
-  auto stream = (void *)at::cuda::getCurrentCUDAStream().stream();
+  auto stream = (void *)at::cuda::getCurrentHIPStream().stream();
 //  FlashRunner flash_runner;
 //  flash_runner.Run(params, stream);
   flash_run_fwd_batch(params, (void *)stream);
